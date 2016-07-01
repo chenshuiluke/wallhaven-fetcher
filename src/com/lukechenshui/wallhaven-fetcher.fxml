@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lukechenshui.WallhavenFetcherController">
+   <children>
+      <TabPane prefHeight="95.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Random">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#startRandomDownloadOnClick" prefHeight="26.0" prefWidth="258.0" text="Download!" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
+          <Tab text="Categorized">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="categoryMenu" prefHeight="26.0" prefWidth="258.0" />
+                        <Button mnemonicParsing="false" onAction="#startCategorizedDownloadOnClick" prefHeight="26.0" prefWidth="258.0" text="Download!" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ProgressIndicator fx:id="categorizedProgress" layoutX="112.0" layoutY="34.0" progress="0.0" AnchorPane.topAnchor="34.0" />
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+      <TextField fx:id="numWallpaperTextBox" layoutX="89.0" layoutY="231.0" prefHeight="26.0" prefWidth="62.0" text="10" AnchorPane.bottomAnchor="0.0" />
+      <AnchorPane layoutY="193.0" prefHeight="83.0" prefWidth="600.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TextArea fx:id="logArea" layoutX="43.0" layoutY="-57.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <ToggleSwitch layoutX="99.0" layoutY="233.0" onMouseClicked="#toggleNSFW" prefHeight="20.0" prefWidth="96.0" text="NSFW" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="3.0" />
+      <Text layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# of pics:" wrappingWidth="82.314453125" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" />
+   </children>
+</AnchorPane>
