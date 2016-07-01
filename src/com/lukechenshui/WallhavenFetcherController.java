@@ -116,13 +116,14 @@ public class WallhavenFetcherController {
                     if(matcher.find()){
                         pictureId = Integer.valueOf(matcher.group());
                     }
-                    if(!(isSFW(pictureId) || nsfwEnabled)){
+                    if(!(nsfwEnabled || isSFW(pictureId))){
                         imageCounter--;
                     }
                     else{
                         ids.add(pictureId);
                     }
-                    //System.out.printf("IMAGE COUNTER: %d\n", imageCounter);
+                    System.out.printf("IMAGE COUNTER: %d\n", imageCounter);
+                    appendToLogsNoNewLine(".");
                 }
                 if(imageCounter >= number){
                     break;
@@ -140,6 +141,14 @@ public class WallhavenFetcherController {
             @Override
             public void run(){
                 logArea.appendText(message + System.lineSeparator());
+            }
+        });
+    }
+    private void appendToLogsNoNewLine(String message){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                logArea.appendText(message);
             }
         });
     }
@@ -229,6 +238,6 @@ public class WallhavenFetcherController {
         categoryCodeMap.put("General", "100");
         categoryCodeMap.put("General Anime", "110");
         categoryCodeMap.put("General People", "101");
-
+        logArea.setWrapText(true);
     }
 }
