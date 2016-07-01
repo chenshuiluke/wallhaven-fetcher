@@ -207,7 +207,7 @@ public class WallhavenFetcherController {
     @FXML
     void startCategorizedDownloadOnClick(ActionEvent event) {
         Runnable task = () -> {
-            if(numWallpaperTextBox.getText().length() > 0 && !downloadingCategories){
+            if(numWallpaperTextBox.getText().length() > 0 && !downloadingCategories && !downloadingRandomly){
                 String category = ((String)categoryMenu.getValue()).toLowerCase();
                 int limit = Integer.valueOf(numWallpaperTextBox.getText());
                 updateCategoryProgressIndicator(-1, 0);
@@ -271,7 +271,7 @@ public class WallhavenFetcherController {
     @FXML
     void startRandomDownloadOnClick(ActionEvent event) {
         Runnable task = () -> {
-            if(numWallpaperTextBox.getText().length() > 0 && !downloadingRandomly) {
+            if(numWallpaperTextBox.getText().length() > 0 && !downloadingRandomly && !downloadingCategories) {
                 downloadingRandomly = true;
                 int iterations = Integer.valueOf(numWallpaperTextBox.getText());
                 appendToLogs("Initializing random downloads");
