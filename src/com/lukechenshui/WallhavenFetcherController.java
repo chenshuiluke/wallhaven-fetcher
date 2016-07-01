@@ -292,7 +292,7 @@ public class WallhavenFetcherController {
                             System.out.println("All randomly generated image ids already exist in the random folder as images.");
                             System.exit(1);
                         }
-                    }while(checkIfRandomImageAlreadyDownloaded(random) || !isSFW(random));
+                    }while(checkIfRandomImageAlreadyDownloaded(random) || (!isSFW(random) && !nsfwEnabled));
                     updateRandomProgressIndicator(counter+1, iterations);
                     appendToLogs(String.valueOf(random));
                     ids = new ArrayList<>();
