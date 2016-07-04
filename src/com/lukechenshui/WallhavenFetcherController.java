@@ -19,10 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -50,10 +47,10 @@ public class WallhavenFetcherController {
     private TextField numWallpaperTextBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="categorizedProgress"
-    private ProgressIndicator categorizedProgress; // Value injected by FXMLLoader
+    private ProgressBar categorizedProgress; // Value injected by FXMLLoader
 
     @FXML
-    private ProgressIndicator randomProgress;
+    private ProgressBar randomProgress;
 
     private static int numberOfRetriesForRandomlySelectingId = 0;
 
@@ -283,7 +280,6 @@ public class WallhavenFetcherController {
                     ArrayList<Integer> ids = getPictureIds(1);
                     int max = ids.get(0);
                     int random;
-                    updateRandomProgressIndicator(-1, 0);
                     do{
                         random = ThreadLocalRandom.current().nextInt(1, max + 1);
                         //random=209773;
