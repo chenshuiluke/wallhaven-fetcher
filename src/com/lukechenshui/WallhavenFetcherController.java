@@ -205,17 +205,24 @@ public class WallhavenFetcherController {
     void startCategorizedDownloadOnClick(ActionEvent event) {
         Runnable task = () -> {
             if(numWallpaperTextBox.getText().length() > 0 && !downloadingCategories && !downloadingRandomly){
-                String category = ((String)categoryMenu.getValue()).toLowerCase();
-                int limit = Integer.valueOf(numWallpaperTextBox.getText());
-                updateCategoryProgressIndicator(-1, 0);
-                downloadingCategories = true;
-                appendToLogs("Getting ids");
-                ArrayList<Integer> ids = getCategoryPictureIds(limit);
-                appendToLogs("Done getting ids");
-                String outputDirectory = "categorized" + File.separator + category;
-                getPicturesFromIds(ids, outputDirectory);
-                appendToLogs("Done downloading images! They're in " + outputDirectory);
-                downloadingCategories = false;
+                try{
+                    String category = ((String)categoryMenu.getValue()).toLowerCase();
+                    int limit = Integer.valueOf(numWallpaperTextBox.getText());
+                    updateCategoryProgressIndicator(-1, 0);
+                    downloadingCategories = true;
+                    appendToLogs("Getting ids");
+                    ArrayList<Integer> ids = getCategoryPictureIds(limit);
+                    appendToLogs("Done getting ids");
+                    String outputDirectory = "categorized" + File.separator + category;
+                    getPicturesFromIds(ids, outputDirectory);
+                    appendToLogs("Done downloading images! They're in " + outputDirectory);
+                    downloadingCategories = false;
+                }
+                catch(Exception exc){
+                    exc.printStackTrace();
+                    downloadingCategories = false;
+                }
+
             }
         };
         Thread thread = new Thread(task);
@@ -269,35 +276,42 @@ public class WallhavenFetcherController {
     void startRandomDownloadOnClick(ActionEvent event) {
         Runnable task = () -> {
             if(numWallpaperTextBox.getText().length() > 0 && !downloadingRandomly && !downloadingCategories) {
-                downloadingRandomly = true;
-                int iterations = Integer.valueOf(numWallpaperTextBox.getText());
-                appendToLogs("Initializing random downloads");
+                try{
+                    downloadingRandomly = true;
+                    int iterations = Integer.valueOf(numWallpaperTextBox.getText());
+                    appendToLogs("Initializing random downloads");
 
-                for(int counter = 0; counter < iterations; counter++){
-                    updateRandomProgressIndicator(counter+1, iterations);
-                    System.out.printf("%d / %d\n ", counter + 1, iterations);
-                    appendToLogsNoNewLine(String.valueOf(counter + 1) + " / " + String.valueOf(iterations) + " ");
-                    ArrayList<Integer> ids = getPictureIds(1);
-                    int max = ids.get(0);
-                    int random;
-                    do{
-                        random = ThreadLocalRandom.current().nextInt(1, max + 1);
-                        //random=209773;
-                        //System.out.println(random);
-                        if(numberOfRetriesForRandomlySelectingId > max){
-                            System.out.println("All randomly generated image ids already exist in the random folder as images.");
-                            System.exit(1);
-                        }
-                    }while(checkIfRandomImageAlreadyDownloaded(random) || (!isSFW(random) && !nsfwEnabled));
-                    updateRandomProgressIndicator(counter+1, iterations);
-                    appendToLogs(String.valueOf(random));
-                    ids = new ArrayList<>();
-                    ids.add(random);
-                    getPicturesFromIds(ids, "random", false);
+                    for(int counter = 0; counter < iterations; counter++){
+                        updateRandomProgressIndicator(counter+1, iterations);
+                        System.out.printf("%d / %d\n ", counter + 1, iterations);
+                        appendToLogsNoNewLine(String.valueOf(counter + 1) + " / " + String.valueOf(iterations) + " ");
+                        ArrayList<Integer> ids = getPictureIds(1);
+                        int max = ids.get(0);
+                        int random;
+                        do{
+                            random = ThreadLocalRandom.current().nextInt(1, max + 1);
+                            //random=209773;
+                            //System.out.println(random);
+                            if(numberOfRetriesForRandomlySelectingId > max){
+                                System.out.println("All randomly generated image ids already exist in the random folder as images.");
+                                System.exit(1);
+                            }
+                        }while(checkIfRandomImageAlreadyDownloaded(random) || (!isSFW(random) && !nsfwEnabled));
+                        updateRandomProgressIndicator(counter+1, iterations);
+                        appendToLogs(String.valueOf(random));
+                        ids = new ArrayList<>();
+                        ids.add(random);
+                        getPicturesFromIds(ids, "random", false);
+                    }
+                    updateRandomProgressIndicator(1, 0);
+                    appendToLogs("Done downloading images! Check in the 'random folder");
+                    downloadingRandomly = false;
                 }
-                updateRandomProgressIndicator(1, 0);
-                appendToLogs("Done downloading images! Check in the 'random folder");
-                downloadingRandomly = false;
+                catch(Exception exc){
+                    exc.printStackTrace();
+                    downloadingRandomly = false;
+                }
+
             }
         };
         Thread thread = new Thread(task);
